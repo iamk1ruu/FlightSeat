@@ -1,5 +1,5 @@
 
-def error(err_id: str):
+def error(err_id: str, exception=None):
     match err_id:
         case "FLIGHT_NOT_READY":
             print("Flight requirements not satisfied yet.\n Check Reservation __init__ class.")
@@ -7,8 +7,14 @@ def error(err_id: str):
             print("Seat is already taken.")
         case "INVALID_MAIN_MENU":
             print("Invalid choice!\nChoose only 1 or 2.")
+        case "INVALID_SEAT_INPUT":
+            print("Invalid seat input!\nRange: 1A, 30F")
+        case "ERROR_DB_SEAT":
+            print()
         case _:
-            print("Unknown Error.")
+            print("Unknown Error.", end=" ")
+            if exception is None:
+                print("Exception: ", exception)
 
 def sucess(message: str):
     print(message)
@@ -70,3 +76,14 @@ def display_seatmap(flight_id: str, seats):
         print()
     print("1. Reserve Seat\n2. Seat Details")
 
+def show_details(details: tuple):
+    print(f"""
+    -----------------------------------------
+        ==================================
+                FLIGHT DETAILS
+        ==================================  
+        SEAT POSITION: {details[0]}
+        NAME: {details[1]} 
+    -----------------------------------------
+        
+    """)
