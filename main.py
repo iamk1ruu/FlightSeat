@@ -1,4 +1,5 @@
 import controller
+from tcontroller import DEBUGTRACE
 
 def __app__():
     contr = controller.Controller()

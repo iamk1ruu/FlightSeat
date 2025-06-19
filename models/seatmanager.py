@@ -4,8 +4,6 @@ class SeatManager:
     def __init__(self, rows=30, cols="ABCDEF"):
         self._seats = [[Seat(row + 1, col) for col in cols] for row in range(rows)]
 
-    def display_map(self):
-        ui.display_map(self, self._seats)
 
     def get_seat(self, row: int, col: str) -> Seat:
         return self._seats[row - 1]["ABCDEF".index(col.upper())]

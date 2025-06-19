@@ -22,28 +22,33 @@ class Controller:
             case 2:
                 """Retrieve the Flight object, so we need to make flight parser methods in parser.py"""
 
-
     def reservation_menu(self):
         ui.display_seatmap(self._flight.id, self._seats)
         choice = int(input())
         match choice:
             case 1:
                 seat_input = input("Which seat?")
+                name_input = input("Under which name? ")  # Get the passenger name
                 try:
                     seat_pos = parse_out(seat_input)
-                    self._flight.reserve_seat(seat_pos[0], seat_pos[1])
-                    ui.sucess("Seat reserved successfully.")
-                except:
+                    self._flight.reserve_seat(name_input, seat_input)
+                    self.reservation_menu()
+                except Exception as e:
+                    print(f"Debug error: {e}")  # For debugging
                     ui.error("INVALID_SEAT_INPUT")
+                    self.reservation_menu()
             case 2:
                 seat_input = input("Which seat?")
                 try:
                     seat_pos = parse_out(seat_input)
                     self._db = DbController(self._flight.id)
-                    ui.show_details(self._db.fetch_details(seat_pos))
+                    details = self._db.fetch_details(seat_input)  # Use original string
+                    if details:
+                        ui.show_details(details)
+                    else:
+                        print("No details found for this seat.")
+                    self.reservation_menu()
                 except Exception as e:
-                    ui.error(err_id="ERROR_DB_SEAT", exception=Exception)
-
-
-
-
+                    print(f"Debug error: {e}")
+                    ui.error(err_id="ERROR_DB_SEAT", exception=e)
+                    self.reservation_menu()
